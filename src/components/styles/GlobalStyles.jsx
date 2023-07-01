@@ -8,8 +8,8 @@ const GlobalStyles = createGlobalStyle`
   }
   body {
     font-family: 'Ubuntu', sans-serif;
-    width: 90%;
-    margin: 1rem auto 1rem auto
+    background-color: ${({ theme }) => theme.colors.background};
+    color: white;
   }
   
 `;
