@@ -12,11 +12,11 @@ function App() {
     colors: {
       background: "#222222",
       elementsBackground: "#007599",
-      incorrect: "#f07167",
-      correct: "#67F071",
+      red: "#f27650",
+      green: "#90E571",
+      yellow: "#f8e25e",
       default: "#ACACAC",
-      pause: "#FED9B7",
-      other: "#00AFB9",
+      other: "#00f2ff",
     },
   };
   return (
@@ -24,10 +24,12 @@ function App() {
       <div className="App">
         <GlobalStyles />
         <Header />
-        <Timer />
-        <Input />
-        <Map />
-        <CountriesList />
+        <main>
+          <Timer />
+          <Input />
+          <Map />
+          <CountriesList />
+        </main>
       </div>
     </ThemeProvider>
   );

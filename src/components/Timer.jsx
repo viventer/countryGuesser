@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFlagCheckered,
   faPause,
+  faPlay,
   faStop,
   faStopwatch,
   faUnlock,
@@ -20,7 +21,7 @@ export default function Timer() {
     <StyledTimer>
       <time>30:00</time>
       <StartButton>
-        <FontAwesomeIcon icon={faFlagCheckered} />
+        <FontAwesomeIcon icon={faPlay} />
       </StartButton>
       <PauseButton>
         <FontAwesomeIcon icon={faPause} />
@@ -30,6 +31,7 @@ export default function Timer() {
       </FinishButton>
       <NoLimitButton>
         <FontAwesomeIcon icon={faUnlock} />
+        <p>disable time limit</p>
       </NoLimitButton>
     </StyledTimer>
   );

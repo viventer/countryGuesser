@@ -11,6 +11,13 @@ const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme }) => theme.colors.background};
     color: white;
   }
+
+  main {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+  }
   
 `;
 export default GlobalStyles;
