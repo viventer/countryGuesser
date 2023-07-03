@@ -6,6 +6,7 @@ import Input from "./components/Input";
 import Map from "./components/Map";
 import CountriesList from "./components/CountriesList";
 import GlobalStyles from "./components/styles/GlobalStyles";
+import { GlobalProvider } from "./context/GlobalProvider";
 
 function App() {
   const theme = {
@@ -16,22 +17,25 @@ function App() {
       green: "#90E571",
       yellow: "#f8e25e",
       default: "#ACACAC",
+      darkGray: "#333333",
       other: "#00f2ff",
     },
   };
   return (
-    <ThemeProvider theme={theme}>
-      <div className="App">
-        <GlobalStyles />
-        <Header />
-        <main>
-          <Timer />
-          <Input />
-          <Map />
-          <CountriesList />
-        </main>
-      </div>
-    </ThemeProvider>
+    <GlobalProvider>
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <GlobalStyles />
+          <Header />
+          <main>
+            <Timer />
+            <Input />
+            <Map />
+            <CountriesList />
+          </main>
+        </div>
+      </ThemeProvider>
+    </GlobalProvider>
   );
 }
 
