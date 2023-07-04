@@ -18,6 +18,17 @@ const GlobalStyles = createGlobalStyle`
     margin-right: auto;
     margin-top: 1rem;
   }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+    tap-highlight-color: transparent;
+  }
+
+  *::selection {
+    background-color: ${({ theme }) => theme.colors.elementsBackground};
+  }
+
   @media (min-width: 1000px) {
     html {
       font-size: 18px;

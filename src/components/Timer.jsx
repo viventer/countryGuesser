@@ -11,12 +11,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
   faFlagCheckered,
-  faLock,
   faPause,
   faPlay,
-  faStop,
   faStopwatch,
-  faUnlock,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import GlobalContext from "../context/GlobalProvider.jsx";

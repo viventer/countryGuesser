@@ -17,7 +17,7 @@ function App() {
       green: "#90E571",
       yellow: "#f8e25e",
       default: "#ACACAC",
-      darkGray: "#333333",
+      darkGray: "#494949",
       other: "#00f2ff",
     },
   };
