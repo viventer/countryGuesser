@@ -39,7 +39,8 @@ export const FinishButton = styled.button`
 `;
 
 export const NoLimitButton = styled.button`
-  color: ${({ theme }) => theme.colors.green};
+  color: ${({ theme, $limitedtime }) =>
+    $limitedtime === "false" ? theme.colors.green : theme.colors.red};
   font-weight: 500;
   display: flex;
   gap: 0.5rem;

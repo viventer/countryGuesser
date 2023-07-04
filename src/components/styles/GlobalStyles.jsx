@@ -18,6 +18,11 @@ const GlobalStyles = createGlobalStyle`
     margin-right: auto;
     margin-top: 1rem;
   }
+  @media (min-width: 1000px) {
+    html {
+      font-size: 18px;
+    }
+  }
   
 `;
 export default GlobalStyles;
