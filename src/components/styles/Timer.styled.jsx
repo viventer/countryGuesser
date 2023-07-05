@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledTimer = styled.div`
+export const StyledTimer = styled.section`
   display: flex;
   align-items: center;
   column-gap: 1.5rem;

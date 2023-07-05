@@ -10,6 +10,7 @@ export default function Input() {
         type="text"
         id="inputBar"
         value={country}
+        placeholder="Enter a country name"
         onChange={(e) => setCountry(e.target.value)}
       />
     </StyledInput>
