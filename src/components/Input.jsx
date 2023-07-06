@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StyledInput } from "./styles/Input.styled";
 
 export default function Input() {
   const [country, setCountry] = useState("");
+
   return (
     <StyledInput onSubmit={(e) => e.preventDefault()}>
       <label htmlFor="inputBar">Enter country names</label>
