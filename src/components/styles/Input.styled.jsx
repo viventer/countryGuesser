@@ -17,8 +17,12 @@ export const StyledInput = styled.form`
     outline: none;
     width: 100%;
     max-width: 40rem;
+    transition: outline 0.15s ease-in-out;
   }
   & > input:focus-visible {
     outline: 0.1rem solid white;
+  }
+  & > input.outline {
+    outline: 0.1rem solid red;
   }
 `;

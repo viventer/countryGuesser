@@ -1,11 +1,15 @@
 import { createContext, useState } from "react";
+import countriesListJson from "../data/countriesList.json";
 
 const GlobalContext = createContext({});
 
 export const GlobalProvider = ({ children }) => {
   const [finished, setFinished] = useState(false);
   const [paused, setPaused] = useState(true);
-  const [allCountries, setAllCountries] = useState([]);
+  const [countriesList, setCountriesList] = useState(
+    countriesListJson.countries
+  );
+  const [guessedCountries, setGuessedCountries] = useState([]);
 
   return (
     <GlobalContext.Provider
@@ -14,8 +18,10 @@ export const GlobalProvider = ({ children }) => {
         setFinished,
         paused,
         setPaused,
-        allCountries,
-        setAllCountries,
+        countriesList,
+        setCountriesList,
+        guessedCountries,
+        setGuessedCountries,
       }}
     >
       {children}

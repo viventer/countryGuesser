@@ -6,7 +6,7 @@ import mapData from "../data/countriesGeojson.json";
 import GlobalContext from "../context/GlobalProvider";
 
 export default function Map() {
-  const { allCountries, setAllCountries } = useContext(GlobalContext);
+  const { guessedCountries } = useContext(GlobalContext);
 
   const [data, setData] = useState(() => {
     const cachedData = localStorage.getItem("cachedData");
@@ -17,6 +17,8 @@ export default function Map() {
       return mapData;
     }
   });
+
+  useEffect(() => {}, [guessedCountries]);
 
   return (
     <StyledMap>
