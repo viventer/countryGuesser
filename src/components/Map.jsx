@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { GeoJSON, MapContainer } from "react-leaflet";
 import { StyledMap } from "./styles/Map.styled";
 import "leaflet/dist/leaflet.css";
-import mapData from "../data/new_countries.json";
+import mapData from "../data/countriesGeojson.json";
 import GlobalContext from "../context/GlobalProvider";
 
 export default function Map() {
@@ -17,12 +17,6 @@ export default function Map() {
       return mapData;
     }
   });
-
-  useEffect(() => {
-    const countries = data.features.map((feature) => feature.properties.ADMIN);
-    setAllCountries(countries);
-    console.log(allCountries);
-  }, [data, setAllCountries]);
 
   return (
     <StyledMap>
