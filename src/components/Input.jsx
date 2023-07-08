@@ -6,7 +6,8 @@ export default function Input() {
   const [country, setCountry] = useState("");
   const { setGuessedCountries, guessedCountries, countriesList } =
     useContext(GlobalContext);
-  const [showOutline, setShowOutline] = useState(false);
+  const [showRedOutline, setShowRedOutline] = useState(false);
+  const [showGreenOutline, setShowGreenOutline] = useState(false);
 
   useEffect(() => {
     const words = country.split(" ");
@@ -19,22 +20,22 @@ export default function Input() {
       !guessedCountries.includes(titledCountry)
     ) {
       setGuessedCountries([...guessedCountries, titledCountry]);
+      setShowGreenOutline(true);
+      setTimeout(() => {
+        setShowGreenOutline(false);
+      }, 200);
       setCountry("");
     }
   }, [country]);
 
   function handleKeyDown(e) {
     if (e.key === "Enter") {
-      setShowOutline(true);
+      setShowRedOutline(true);
     }
     setTimeout(() => {
-      setShowOutline(false);
+      setShowRedOutline(false);
     }, 200);
   }
-
-  useEffect(() => {
-    console.log(showOutline);
-  }, [showOutline]);
 
   return (
     <StyledInput onSubmit={(e) => e.preventDefault()}>
@@ -46,7 +47,9 @@ export default function Input() {
         placeholder="Enter a country name"
         onChange={(e) => setCountry(e.target.value)}
         onKeyDown={handleKeyDown}
-        className={showOutline ? "outline" : ""}
+        className={
+          showRedOutline ? "redOutline" : showGreenOutline ? "greenOutline" : ""
+        }
       />
     </StyledInput>
   );

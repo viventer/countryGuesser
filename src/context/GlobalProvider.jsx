@@ -1,15 +1,19 @@
 import { createContext, useState } from "react";
 import countriesListJson from "../data/countriesList.json";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 const GlobalContext = createContext({});
 
 export const GlobalProvider = ({ children }) => {
-  const [finished, setFinished] = useState(false);
-  const [paused, setPaused] = useState(true);
+  const [finished, setFinished] = useLocalStorage("finished", false);
+  const [paused, setPaused] = useLocalStorage("paused", true);
   const [countriesList, setCountriesList] = useState(
     countriesListJson.countries
   );
-  const [guessedCountries, setGuessedCountries] = useState([]);
+  const [guessedCountries, setGuessedCountries] = useLocalStorage(
+    "guessedCountries",
+    []
+  );
 
   return (
     <GlobalContext.Provider

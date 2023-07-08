@@ -11,7 +11,6 @@ export const StyledMap = styled.section`
   }
   & .countries {
     fill-opacity: 1;
-    fill: ${({ theme }) => theme.colors.default};
     stroke-width: 0.1rem;
     stroke: ${({ theme }) => theme.colors.background};
   }

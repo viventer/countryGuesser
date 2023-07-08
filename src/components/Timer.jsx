@@ -19,13 +19,14 @@ import {
 import GlobalContext from "../context/GlobalProvider.jsx";
 import { StyledConfirmationWindow } from "./styles/ConfirmationWindow.styled.jsx";
 import FinishedMessage from "./FinishedMessage.jsx";
+import useLocalStorage from "../hooks/useLocalStorage.jsx";
 
 export default function Timer() {
-  const [countDown, setCountDown] = useState(30 * 60);
-  const [timer, setTimer] = useState("30:00");
+  const [countDown, setCountDown] = useLocalStorage("countdown", 30 * 60);
+  const [timer, setTimer] = useLocalStorage("timer", "30:00");
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
-  const [limitedTime, setLimitedTime] = useState(true);
+  const [limitedTime, setLimitedTime] = useLocalStorage("limitedTime", true);
 
   const { paused, setPaused } = useContext(GlobalContext);
   const { finished, setFinished } = useContext(GlobalContext);

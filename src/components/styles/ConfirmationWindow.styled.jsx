@@ -8,6 +8,7 @@ export const StyledConfirmationWindow = styled.div`
   border-radius: 0.3rem;
   padding: 0.5rem 1rem;
   box-shadow: 0px 0px 21px 0px rgba(255, 255, 255, 0.25);
+  z-index: 500;
   & > h2 {
     font-size: 1.3rem;
     font-weight: 500;

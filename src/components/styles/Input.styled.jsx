@@ -22,7 +22,10 @@ export const StyledInput = styled.form`
   & > input:focus-visible {
     outline: 0.1rem solid white;
   }
-  & > input.outline {
-    outline: 0.1rem solid red;
+  & > input.redOutline {
+    outline: 0.1rem solid ${({ theme }) => theme.colors.red};
+  }
+  & > input.greenOutline {
+    outline: 0.1rem solid ${({ theme }) => theme.colors.green};
   }
 `;
