@@ -4,22 +4,20 @@ import GlobalContext from "../context/GlobalProvider";
 
 export default function Input() {
   const [country, setCountry] = useState("");
-  const { setGuessedCountries, guessedCountries, countriesList } =
+  const { setGuessedCountries, guessedCountries, countriesList, paused } =
     useContext(GlobalContext);
   const [showRedOutline, setShowRedOutline] = useState(false);
   const [showGreenOutline, setShowGreenOutline] = useState(false);
 
+  const inputRef = useRef();
+
   useEffect(() => {
-    const words = country.split(" ");
-    const titleCaseWords = words.map(
-      (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-    );
-    const titledCountry = titleCaseWords.join(" ");
+    const lowerCountry = country.toLowerCase();
     if (
-      countriesList.includes(titledCountry) &&
-      !guessedCountries.includes(titledCountry)
+      countriesList.includes(lowerCountry) &&
+      !guessedCountries.includes(lowerCountry)
     ) {
-      setGuessedCountries([...guessedCountries, titledCountry]);
+      setGuessedCountries([...guessedCountries, lowerCountry]);
       setShowGreenOutline(true);
       setTimeout(() => {
         setShowGreenOutline(false);
@@ -37,19 +35,31 @@ export default function Input() {
     }, 200);
   }
 
+  useEffect(() => {
+    if (paused) {
+      inputRef.current.disabled = true;
+    } else {
+      inputRef.current.disabled = false;
+    }
+  }, [paused]);
+
   return (
     <StyledInput onSubmit={(e) => e.preventDefault()}>
-      <label htmlFor="inputBar">Enter country names</label>
+      <label htmlFor="inputBar">
+        {paused ? "Start the timer" : "Enter country names"}
+      </label>
       <input
+        ref={inputRef}
         type="text"
         id="inputBar"
         value={country}
-        placeholder="Enter a country name"
+        placeholder={paused ? "Start the timer" : "Enter a country name"}
         onChange={(e) => setCountry(e.target.value)}
         onKeyDown={handleKeyDown}
         className={
           showRedOutline ? "redOutline" : showGreenOutline ? "greenOutline" : ""
         }
+        autoComplete="off"
       />
     </StyledInput>
   );

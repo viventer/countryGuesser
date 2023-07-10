@@ -2,6 +2,7 @@ import React from "react";
 import { ThemeProvider } from "styled-components";
 import Header from "./components/Header";
 import Timer from "./components/Timer";
+import Counter from "./components/Counter";
 import Input from "./components/Input";
 import Map from "./components/Map";
 import CountriesList from "./components/CountriesList";
@@ -28,7 +29,10 @@ function App() {
           <GlobalStyles />
           <Header />
           <main>
-            <Timer />
+            <div className="flex">
+              <Timer />
+              <Counter />
+            </div>
             <Input />
             <Map />
             <CountriesList />

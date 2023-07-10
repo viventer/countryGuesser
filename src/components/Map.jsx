@@ -23,7 +23,7 @@ export default function Map() {
   useEffect(() => {
     const updatedData = { ...data };
     updatedData.features.forEach((feature) => {
-      if (guessedCountries.includes(feature.properties.ADMIN)) {
+      if (guessedCountries.includes(feature.properties.ADMIN.toLowerCase())) {
         feature.properties.style = { fillColor: theme.colors.green };
       } else {
         feature.properties.style = { fillColor: theme.colors.default };

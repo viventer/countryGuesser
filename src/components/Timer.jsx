@@ -28,8 +28,8 @@ export default function Timer() {
   const [confirmed, setConfirmed] = useState(false);
   const [limitedTime, setLimitedTime] = useLocalStorage("limitedTime", true);
 
-  const { paused, setPaused } = useContext(GlobalContext);
-  const { finished, setFinished } = useContext(GlobalContext);
+  const { paused, setPaused, finished, setFinished } =
+    useContext(GlobalContext);
 
   useEffect(() => {
     if (!paused && limitedTime) {
@@ -57,8 +57,6 @@ export default function Timer() {
       setFinished(true);
       setPaused(true);
       setShowConfirmation(false);
-    } else {
-      setFinished(false);
     }
   }, [confirmed]);
 

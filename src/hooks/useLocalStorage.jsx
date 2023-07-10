@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 const getLocalValue = (key, initValue) => {
   const localValue = JSON.parse(localStorage.getItem(key));
-  if (localValue) return localValue;
+  if (localValue !== null) return localValue;
 
   if (initValue instanceof Function) return initValue();
 

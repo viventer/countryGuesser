@@ -35,5 +35,10 @@ const GlobalStyles = createGlobalStyle`
     }
   }
   
+  .flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 `;
 export default GlobalStyles;
