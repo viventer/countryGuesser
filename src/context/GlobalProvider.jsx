@@ -14,6 +14,7 @@ export const GlobalProvider = ({ children }) => {
     "guessedCountries",
     []
   );
+  const [limitedTime, setLimitedTime] = useLocalStorage("limitedTime", true);
 
   return (
     <GlobalContext.Provider
@@ -26,6 +27,8 @@ export const GlobalProvider = ({ children }) => {
         setCountriesList,
         guessedCountries,
         setGuessedCountries,
+        limitedTime,
+        setLimitedTime,
       }}
     >
       {children}

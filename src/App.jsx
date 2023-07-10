@@ -5,9 +5,9 @@ import Timer from "./components/Timer";
 import Counter from "./components/Counter";
 import Input from "./components/Input";
 import Map from "./components/Map";
-import CountriesList from "./components/CountriesList";
 import GlobalStyles from "./components/styles/GlobalStyles";
 import { GlobalProvider } from "./context/GlobalProvider";
+import CountriesTable from "./components/CountriesTable";
 
 function App() {
   const theme = {
@@ -35,7 +35,7 @@ function App() {
             </div>
             <Input />
             <Map />
-            <CountriesList />
+            <CountriesTable />
           </main>
         </div>
       </ThemeProvider>

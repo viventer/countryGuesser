@@ -26,10 +26,15 @@ export default function Timer() {
   const [timer, setTimer] = useLocalStorage("timer", "30:00");
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
-  const [limitedTime, setLimitedTime] = useLocalStorage("limitedTime", true);
 
-  const { paused, setPaused, finished, setFinished } =
-    useContext(GlobalContext);
+  const {
+    paused,
+    setPaused,
+    finished,
+    setFinished,
+    limitedTime,
+    setLimitedTime,
+  } = useContext(GlobalContext);
 
   useEffect(() => {
     if (!paused && limitedTime) {
@@ -41,7 +46,7 @@ export default function Timer() {
         clearInterval(interval);
       };
     }
-  }, [paused]);
+  }, [paused, limitedTime, setCountDown]);
 
   useEffect(() => {
     if (limitedTime) {
@@ -50,7 +55,7 @@ export default function Timer() {
     } else {
       setTimer("NO LIMIT");
     }
-  }, [countDown, limitedTime]);
+  }, [countDown, limitedTime, setTimer]);
 
   useEffect(() => {
     if (confirmed === true) {
@@ -58,7 +63,7 @@ export default function Timer() {
       setPaused(true);
       setShowConfirmation(false);
     }
-  }, [confirmed]);
+  }, [confirmed, setFinished, setPaused]);
 
   return (
     <>
