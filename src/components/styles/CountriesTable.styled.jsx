@@ -5,6 +5,7 @@ export const StyledCountriesTable = styled.section`
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   flex-wrap: wrap;
   margin-top: 1rem;
+  margin-bottom: 1rem;
   & > div {
     border: 0.1rem solid ${({ borderColor }) => borderColor};
     padding: 1rem;

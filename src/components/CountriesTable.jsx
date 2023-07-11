@@ -8,6 +8,19 @@ export default function CountriesTable() {
   const [countriesDivs, setCountriesDivs] = useState();
   const theme = useContext(ThemeContext);
 
+  function formatCountryName(name) {
+    const formattedName = name
+      .split(" ")
+      .map((word) => {
+        if (word.length < 3 || word === "and") {
+          return word;
+        }
+        return word[0].toUpperCase() + word.slice(1);
+      })
+      .join(" ");
+    return formattedName;
+  }
+
   useEffect(() => {
     setCountriesDivs(
       countriesList.map((countryNamesList) => (
@@ -21,12 +34,11 @@ export default function CountriesTable() {
           }}
         >
           {guessedCountries.includes(countryNamesList[0])
-            ? countryNamesList[0]
+            ? formatCountryName(countryNamesList[0])
             : ""}
         </div>
       ))
     );
-    console.log(countriesList);
   }, [guessedCountries]);
 
   return <StyledCountriesTable>{countriesDivs}</StyledCountriesTable>;

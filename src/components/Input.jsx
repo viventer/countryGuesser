@@ -11,6 +11,7 @@ export default function Input() {
     setCountriesList,
     paused,
     limitedTime,
+    finished,
   } = useContext(GlobalContext);
   const [showRedOutline, setShowRedOutline] = useState(false);
   const [showGreenOutline, setShowGreenOutline] = useState(false);
@@ -25,10 +26,6 @@ export default function Input() {
         !guessedCountries.includes(countryNamesList[0])
       ) {
         setGuessedCountries([...guessedCountries, countryNamesList[0]]);
-        // const filteredCountriesList = countriesList.filter(
-        //   (namesList) => namesList[0] !== countryNamesList[0]
-        // );
-        // setCountriesList(filteredCountriesList);
         setShowGreenOutline(true);
         setTimeout(() => {
           setShowGreenOutline(false);
@@ -54,33 +51,41 @@ export default function Input() {
   }
 
   useEffect(() => {
-    if (paused && limitedTime) {
+    if (paused && limitedTime && !finished) {
       inputRef.current.disabled = true;
-    } else {
+    } else if (!finished) {
       inputRef.current.disabled = false;
     }
   }, [paused, limitedTime]);
 
   return (
-    <StyledInput onSubmit={(e) => e.preventDefault()}>
-      <label htmlFor="inputBar">
-        {paused ? "Start the timer" : "Enter country names"}
-      </label>
-      <input
-        ref={inputRef}
-        type="text"
-        id="inputBar"
-        value={country}
-        placeholder={
-          paused && limitedTime ? "Start the timer" : "Enter a country name"
-        }
-        onChange={(e) => setCountry(e.target.value)}
-        onKeyDown={handleKeyDown}
-        className={
-          showRedOutline ? "redOutline" : showGreenOutline ? "greenOutline" : ""
-        }
-        autoComplete="off"
-      />
-    </StyledInput>
+    <>
+      {!finished && (
+        <StyledInput onSubmit={(e) => e.preventDefault()}>
+          <label htmlFor="inputBar">
+            {paused ? "Start the timer" : "Enter country names"}
+          </label>
+          <input
+            ref={inputRef}
+            type="text"
+            id="inputBar"
+            value={country}
+            placeholder={
+              paused && limitedTime ? "Start the timer" : "Enter a country name"
+            }
+            onChange={(e) => setCountry(e.target.value)}
+            onKeyDown={handleKeyDown}
+            className={
+              showRedOutline
+                ? "redOutline"
+                : showGreenOutline
+                ? "greenOutline"
+                : ""
+            }
+            autoComplete="off"
+          />
+        </StyledInput>
+      )}
+    </>
   );
 }
