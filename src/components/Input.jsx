@@ -22,13 +22,13 @@ export default function Input() {
     for (const countryNamesList of countriesList) {
       if (
         countryNamesList.includes(lowerCountry) &&
-        !guessedCountries.includes(lowerCountry)
+        !guessedCountries.includes(countryNamesList[0])
       ) {
         setGuessedCountries([...guessedCountries, countryNamesList[0]]);
-        const filteredCountriesList = countriesList.filter(
-          (namesList) => namesList[0] !== countryNamesList[0]
-        );
-        setCountriesList(filteredCountriesList);
+        // const filteredCountriesList = countriesList.filter(
+        //   (namesList) => namesList[0] !== countryNamesList[0]
+        // );
+        // setCountriesList(filteredCountriesList);
         setShowGreenOutline(true);
         setTimeout(() => {
           setShowGreenOutline(false);
