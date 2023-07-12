@@ -13,7 +13,7 @@ export const StyledInput = styled.form`
     background-color: ${({ theme }) => theme.colors.darkGray};
     border: none;
     border-radius: 0.2rem;
-    box-shadow: 0rem 0rem 0.5rem 0.1rem rgba(255, 255, 255, 0.15);
+    box-shadow: 0rem 0rem 0.7rem 0.1rem rgba(255, 255, 255, 0.5);
     outline: none;
     width: 100%;
     max-width: 40rem;

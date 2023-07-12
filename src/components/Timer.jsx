@@ -49,6 +49,9 @@ export default function Timer() {
   }, [paused, limitedTime, setCountDown]);
 
   useEffect(() => {
+    if (countDown <= 0) {
+      setFinished(true);
+    }
     if (limitedTime) {
       const formattedDate = moment.unix(countDown).format("mm:ss");
       setTimer(formattedDate);

@@ -4,7 +4,8 @@ import GlobalContext from "../context/GlobalProvider";
 import { ThemeContext } from "styled-components";
 
 export default function CountriesTable() {
-  const { guessedCountries, countriesList } = useContext(GlobalContext);
+  const { guessedCountries, countriesList, finished } =
+    useContext(GlobalContext);
   const [countriesDivs, setCountriesDivs] = useState();
   const theme = useContext(ThemeContext);
 
@@ -30,16 +31,18 @@ export default function CountriesTable() {
             borderColor: guessedCountries.includes(countryNamesList[0])
               ? theme.colors.green
               : theme.colors.darkGray,
-            color: theme.colors.green,
+            color: guessedCountries.includes(countryNamesList[0])
+              ? theme.colors.green
+              : theme.colors.red,
           }}
         >
-          {guessedCountries.includes(countryNamesList[0])
+          {guessedCountries.includes(countryNamesList[0]) || finished
             ? formatCountryName(countryNamesList[0])
             : ""}
         </div>
       ))
     );
-  }, [guessedCountries]);
+  }, [guessedCountries, finished]);
 
   return <StyledCountriesTable>{countriesDivs}</StyledCountriesTable>;
 }

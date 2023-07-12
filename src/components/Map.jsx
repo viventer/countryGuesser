@@ -7,7 +7,7 @@ import GlobalContext from "../context/GlobalProvider";
 import { ThemeContext } from "styled-components";
 
 export default function Map() {
-  const { guessedCountries } = useContext(GlobalContext);
+  const { guessedCountries, finished } = useContext(GlobalContext);
   const theme = useContext(ThemeContext);
 
   const [data, setData] = useState(() => {
@@ -25,12 +25,14 @@ export default function Map() {
     updatedData.features.forEach((feature) => {
       if (guessedCountries.includes(feature.properties.ADMIN.toLowerCase())) {
         feature.properties.style = { fillColor: theme.colors.green };
+      } else if (finished) {
+        feature.properties.style = { fillColor: theme.colors.red };
       } else {
         feature.properties.style = { fillColor: theme.colors.default };
       }
     });
     setData(updatedData);
-  }, [guessedCountries]);
+  }, [guessedCountries, finished]);
 
   const styleFeature = (feature) => feature.properties.style;
 

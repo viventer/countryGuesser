@@ -40,5 +40,12 @@ const GlobalStyles = createGlobalStyle`
     align-items: center;
     justify-content: space-between;
   }
+
+  .sticky {
+    width: 100%;
+    position: sticky;
+    top: 1rem;
+    z-index: 500;
+  }
 `;
 export default GlobalStyles;

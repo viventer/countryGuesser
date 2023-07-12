@@ -29,11 +29,13 @@ function App() {
           <GlobalStyles />
           <Header />
           <main>
-            <div className="flex">
-              <Timer />
-              <Counter />
+            <div className="sticky">
+              <div className="flex">
+                <Timer />
+                <Counter />
+              </div>
+              <Input />
             </div>
-            <Input />
             <Map />
             <CountriesTable />
           </main>
