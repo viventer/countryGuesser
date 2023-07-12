@@ -5,7 +5,8 @@ import { faRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function FinishedMessage() {
-  const { guessedCountries, countriesList } = useContext(GlobalContext);
+  const { guessedCountries, countriesList, setFinished, setGuessedCountries } =
+    useContext(GlobalContext);
   return (
     <StyledFinishedMessage>
       <div className="flex">
@@ -17,7 +18,12 @@ export default function FinishedMessage() {
             : `You guessed all ${countriesList.length} countries`}
         </p>
       </div>
-      <button>
+      <button
+        onClick={() => {
+          setFinished(false);
+          setGuessedCountries([]);
+        }}
+      >
         <FontAwesomeIcon icon={faRotateLeft} />
         {guessedCountries.length !== countriesList.length
           ? "Try to get a better score"

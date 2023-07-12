@@ -65,6 +65,14 @@ export default function Timer() {
     }
   }, [confirmed, setFinished, setPaused]);
 
+  useEffect(() => {
+    if (finished) {
+      setTimer("0:00");
+      setLimitedTime(true);
+      setCountDown(30 * 60);
+    }
+  }, [finished]);
+
   return (
     <>
       {!finished ? (

@@ -56,7 +56,7 @@ export default function Input() {
     } else if (!finished) {
       inputRef.current.disabled = false;
     }
-  }, [paused, limitedTime]);
+  }, [paused, limitedTime, finished]);
 
   return (
     <>

@@ -3,12 +3,15 @@ import GlobalContext from "../context/GlobalProvider";
 import { StyledCounter } from "./styles/Counter.styled";
 
 export default function Counter() {
-  const { guessedCountries, countriesList, finished } =
+  const { guessedCountries, countriesList, finished, setFinished } =
     useContext(GlobalContext);
   const [counter, setCounter] = useState(0);
 
   useEffect(() => {
     setCounter(guessedCountries.length);
+    if (guessedCountries.length === countriesList.length) {
+      setFinished(true);
+    }
   }, [guessedCountries]);
 
   return (
