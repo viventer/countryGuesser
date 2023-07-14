@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { GeoJSON, MapContainer } from "react-leaflet";
+import { GeoJSON, MapContainer, CircleMarker } from "react-leaflet";
 import { StyledMap } from "./styles/Map.styled";
 import "leaflet/dist/leaflet.css";
 import mapData from "../data/countriesGeojson.json";
@@ -9,6 +9,38 @@ import { ThemeContext } from "styled-components";
 export default function Map() {
   const { guessedCountries, finished } = useContext(GlobalContext);
   const theme = useContext(ThemeContext);
+  const smallCountries = [
+    "andorra",
+    "antigua and barbuda",
+    "barbados",
+    "brunei",
+    "trinidad and tobago",
+    "samoa",
+    "luxembourg",
+    "mauritius",
+    "comoros",
+    "kiribati",
+    "bahrain",
+    "dominica",
+    "tonga",
+    "singapore",
+    "micronesia",
+    "saint lucia",
+    "palau",
+    "seychelles",
+    "saint vincent and the grenadines",
+    "grenada",
+    "malta",
+    "maldives",
+    "saint kitts and nevis",
+    "marshall islands",
+    "liechtenstein",
+    "san marino",
+    "tuvalu",
+    "nauru",
+    "monaco",
+    "vatican",
+  ];
 
   const [data, setData] = useState(() => {
     const cachedData = localStorage.getItem("cachedData");
@@ -36,6 +68,13 @@ export default function Map() {
 
   const styleFeature = (feature) => feature.properties.style;
 
+  // nie działa
+  function addDot(country, latlng) {
+    if (smallCountries.includes(country.properties.ADMIN.toLowerCase())) {
+      console.log(country.properties.ADMIN);
+    }
+  }
+
   return (
     <StyledMap>
       <MapContainer
@@ -44,7 +83,12 @@ export default function Map() {
         className="mapContainer"
         zoomControl={false}
       >
-        <GeoJSON data={data} className="countries" style={styleFeature} />
+        <GeoJSON
+          data={data}
+          className="countries"
+          style={styleFeature}
+          onEachFeature={addDot}
+        />
       </MapContainer>
     </StyledMap>
   );
