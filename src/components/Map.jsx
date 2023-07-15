@@ -58,13 +58,15 @@ export default function Map() {
   useEffect(() => {
     const updatedData = { ...data };
     updatedData.features.forEach((feature) => {
-      if (guessedCountries.includes(feature.properties.ADMIN.toLowerCase())) {
-        feature.properties.style = { fillColor: theme.colors.green };
-      } else if (finished) {
-        feature.properties.style = { fillColor: theme.colors.red };
-      } else {
-        feature.properties.style = { fillColor: theme.colors.default };
-      }
+      const countryInGuessed = guessedCountries.includes(
+        feature.properties.ADMIN.toLowerCase()
+      );
+      const fillColor = countryInGuessed
+        ? theme.colors.green
+        : finished
+        ? theme.colors.red
+        : theme.colors.default;
+      feature.properties.style = { fillColor };
     });
     setData(updatedData);
   }, [guessedCountries, finished]);
@@ -76,6 +78,12 @@ export default function Map() {
       if (smallCountries.includes(countryName)) {
         const center = L.geoJSON(feature).getBounds().getCenter();
         const { lat, lng } = center;
+        const isGuessed = guessedCountries.includes(countryName);
+        const color = isGuessed
+          ? theme.colors.green
+          : finished
+          ? theme.colors.red
+          : theme.colors.yellow;
         const marker = (
           <CircleMarker
             center={[lat, lng]}
@@ -83,7 +91,7 @@ export default function Map() {
             radius={4}
             pathOptions={{
               fillOpacity: 1,
-              color: theme.colors.red,
+              color: color,
               weight: 0,
             }}
           />
@@ -92,22 +100,7 @@ export default function Map() {
       }
     });
     setCircleMarkers(markers);
-  }, [data]);
-
-  useEffect(() => {
-    const updatedMarkers = circleMarkers.map((marker) => {
-      if (guessedCountries.includes(marker.key)) {
-        return React.cloneElement(marker, {
-          pathOptions: {
-            ...marker.props.pathOptions,
-            fillColor: theme.colors.green,
-          },
-        });
-      }
-      return marker;
-    });
-    setCircleMarkers(updatedMarkers);
-  }, [guessedCountries]);
+  }, [data, guessedCountries]);
 
   const styleFeature = (feature) => feature.properties.style;
 
@@ -119,12 +112,7 @@ export default function Map() {
         className="mapContainer"
         zoomControl={false}
       >
-        <GeoJSON
-          data={data}
-          className="countries"
-          style={styleFeature}
-          // onEachFeature={addDot}
-        />
+        <GeoJSON data={data} className="countries" style={styleFeature} />
         {circleMarkers}
       </MapContainer>
     </StyledMap>
