@@ -1,106 +1,112 @@
 import React, { useState, useContext, useEffect } from "react";
+
 import { GeoJSON, MapContainer, CircleMarker } from "react-leaflet";
-import L, { circleMarker } from "leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { StyledMap } from "./styles/Map.styled";
-import mapData from "../data/countriesGeojson.json";
-import GlobalContext from "../context/GlobalProvider";
+
 import { ThemeContext } from "styled-components";
+import { StyledMap } from "./styles/Map.styled";
+
+import mapDataFromFile from "../data/countriesGeojson.json";
+import smallCountriesData from "../data/smallCountries.json";
+
+import GlobalContext from "../context/GlobalProvider";
+
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function Map() {
   const { guessedCountries, finished } = useContext(GlobalContext);
   const theme = useContext(ThemeContext);
-  const smallCountries = [
-    "andorra",
-    "antigua and barbuda",
-    "barbados",
-    "brunei",
-    "trinidad and tobago",
-    "samoa",
-    "luxembourg",
-    "mauritius",
-    "comoros",
-    "kiribati",
-    "bahrain",
-    "dominica",
-    "tonga",
-    "singapore",
-    "micronesia",
-    "saint lucia",
-    "palau",
-    "seychelles",
-    "saint vincent and the grenadines",
-    "grenada",
-    "malta",
-    "maldives",
-    "saint kitts and nevis",
-    "marshall islands",
-    "liechtenstein",
-    "san marino",
-    "tuvalu",
-    "nauru",
-    "monaco",
-    "vatican",
-  ];
 
-  const [data, setData] = useState(() => {
+  const [circleMarkers, setCircleMarkers] = useState([]);
+  const [mapData, setMapData] = useState(() => {
     const cachedData = localStorage.getItem("cachedData");
     if (cachedData) {
       return JSON.parse(cachedData);
     } else {
-      localStorage.setItem("cachedData", JSON.stringify(mapData));
-      return mapData;
+      localStorage.setItem("cachedData", JSON.stringify(mapDataFromFile));
+      return mapDataFromFile;
     }
   });
 
-  const [circleMarkers, setCircleMarkers] = useState([]);
+  const [smallCountries] = useLocalStorage(
+    "small countries",
+    JSON.stringify(smallCountriesData)
+  );
 
   useEffect(() => {
-    const updatedData = { ...data };
+    const updatedData = { ...mapData };
     updatedData.features.forEach((feature) => {
-      const countryInGuessed = guessedCountries.includes(
-        feature.properties.ADMIN.toLowerCase()
-      );
-      const fillColor = countryInGuessed
-        ? theme.colors.green
-        : finished
-        ? theme.colors.red
-        : theme.colors.default;
-      feature.properties.style = { fillColor };
+      setCountryFillColor(feature);
     });
-    setData(updatedData);
+    setMapData(updatedData);
   }, [guessedCountries, finished]);
+
+  function setCountryFillColor(feature) {
+    const countryName = getLowerCountryName(feature);
+    const isGuessed = isCountryInGuessed(countryName);
+    const fillColor = isGuessed
+      ? theme.colors.green
+      : finished
+      ? theme.colors.red
+      : theme.colors.default;
+    feature.properties.style = { fillColor };
+  }
+
+  function isCountryInGuessed(countryName) {
+    return guessedCountries.includes(countryName);
+  }
+
+  function getLowerCountryName(feature) {
+    return feature.properties.ADMIN.toLowerCase();
+  }
 
   useEffect(() => {
     const markers = [];
-    data.features.forEach((feature) => {
-      const countryName = feature.properties.ADMIN.toLowerCase();
-      if (smallCountries.includes(countryName)) {
-        const center = L.geoJSON(feature).getBounds().getCenter();
-        const { lat, lng } = center;
-        const isGuessed = guessedCountries.includes(countryName);
-        const color = isGuessed
-          ? theme.colors.green
-          : finished
-          ? theme.colors.red
-          : theme.colors.yellow;
-        const marker = (
-          <CircleMarker
-            center={[lat, lng]}
-            key={countryName}
-            radius={4}
-            pathOptions={{
-              fillOpacity: 1,
-              color: color,
-              weight: 0,
-            }}
-          />
-        );
+    mapData.features.forEach((feature) => {
+      if (isSmallCountry(feature)) {
+        const markerData = getMarkerData(feature);
+        const marker = createCircleMarker(markerData);
         markers.push(marker);
       }
     });
     setCircleMarkers(markers);
-  }, [data, guessedCountries]);
+  }, [mapData, guessedCountries]);
+
+  function isSmallCountry(feature) {
+    const countryName = getLowerCountryName(feature);
+    return smallCountries.includes(countryName);
+  }
+
+  function createCircleMarker(markerData) {
+    const { lat, lng, countryName, color } = markerData;
+    const marker = (
+      <CircleMarker
+        center={[lat, lng]}
+        key={countryName}
+        radius={4}
+        pathOptions={{
+          fillOpacity: 1,
+          color: color,
+          weight: 0,
+        }}
+      />
+    );
+    return marker;
+  }
+
+  function getMarkerData(feature) {
+    const center = L.geoJSON(feature).getBounds().getCenter();
+    const { lat, lng } = center;
+    const countryName = getLowerCountryName(feature);
+    const isGuessed = isCountryInGuessed(countryName);
+    const color = isGuessed
+      ? theme.colors.green
+      : finished
+      ? theme.colors.red
+      : theme.colors.yellow;
+    return { lat, lng, countryName, color };
+  }
 
   const styleFeature = (feature) => feature.properties.style;
 
@@ -112,7 +118,7 @@ export default function Map() {
         className="mapContainer"
         zoomControl={false}
       >
-        <GeoJSON data={data} className="countries" style={styleFeature} />
+        <GeoJSON data={mapData} className="countries" style={styleFeature} />
         {circleMarkers}
       </MapContainer>
     </StyledMap>

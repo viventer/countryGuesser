@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
+
 import moment from "moment";
+
 import {
   StyledTimer,
   StartButton,
@@ -7,6 +9,8 @@ import {
   FinishButton,
   NoLimitButton,
 } from "./styles/Timer.styled.jsx";
+import { StyledConfirmationWindow } from "./styles/ConfirmationWindow.styled.jsx";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
@@ -16,9 +20,11 @@ import {
   faStopwatch,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+
 import GlobalContext from "../context/GlobalProvider.jsx";
-import { StyledConfirmationWindow } from "./styles/ConfirmationWindow.styled.jsx";
+
 import FinishedMessage from "./FinishedMessage.jsx";
+
 import useLocalStorage from "../hooks/useLocalStorage.jsx";
 
 export default function Timer() {
@@ -38,21 +44,24 @@ export default function Timer() {
 
   useEffect(() => {
     if (!paused && limitedTime) {
-      const interval = setInterval(() => {
-        setCountDown((prevCount) => prevCount - 1);
-      }, 1000);
-
+      const counterInterval = setCounterInterval();
       return () => {
-        clearInterval(interval);
+        clearInterval(counterInterval);
       };
     }
   }, [paused, limitedTime, setCountDown]);
 
+  function setCounterInterval() {
+    const interval = setInterval(() => {
+      setCountDown((prevCount) => prevCount - 1);
+    }, 1000);
+    return interval;
+  }
+
   useEffect(() => {
     if (countDown <= 0) {
       setFinished(true);
-    }
-    if (limitedTime) {
+    } else if (limitedTime) {
       const formattedDate = moment.unix(countDown).format("mm:ss");
       setTimer(formattedDate);
     } else {
