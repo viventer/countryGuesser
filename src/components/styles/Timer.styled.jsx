@@ -25,19 +25,6 @@ export const StyledTimer = styled.section`
   }
 `;
 
-export const StartButton = styled.button`
-  color: ${({ theme }) => theme.colors.green};
-`;
-
-export const PauseButton = styled.button`
-  color: ${({ theme }) => theme.colors.yellow};
-`;
-
-export const FinishButton = styled.button`
-  color: ${({ theme }) => theme.colors.red};
-  margin-right: 1rem;
-`;
-
 export const NoLimitButton = styled.button`
   color: ${({ theme, $limitedtime }) =>
     $limitedtime === "false" ? theme.colors.green : theme.colors.red};

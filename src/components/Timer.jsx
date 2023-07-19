@@ -2,45 +2,23 @@ import React, { useEffect, useState, useContext } from "react";
 
 import moment from "moment";
 
-import {
-  StyledTimer,
-  StartButton,
-  PauseButton,
-  FinishButton,
-  NoLimitButton,
-} from "./styles/Timer.styled.jsx";
-import { StyledConfirmationWindow } from "./styles/ConfirmationWindow.styled.jsx";
+import { StyledTimer, NoLimitButton } from "./styles/Timer.styled.jsx";
+import ConfirmationWindow from "./ConfirmationWindow.jsx";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCheck,
-  faFlagCheckered,
-  faPause,
-  faPlay,
-  faStopwatch,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faStopwatch } from "@fortawesome/free-solid-svg-icons";
 
 import GlobalContext from "../context/GlobalProvider.jsx";
-
-import FinishedMessage from "./FinishedMessage.jsx";
-
 import useLocalStorage from "../hooks/useLocalStorage.jsx";
+import TimeControlButtons from "./TimeControlButtons.jsx";
 
 export default function Timer() {
   const [countDown, setCountDown] = useLocalStorage("countdown", 30 * 60);
   const [timer, setTimer] = useLocalStorage("timer", "30:00");
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [confirmed, setConfirmed] = useState(false);
 
-  const {
-    paused,
-    setPaused,
-    finished,
-    setFinished,
-    limitedTime,
-    setLimitedTime,
-  } = useContext(GlobalContext);
+  const { paused, setPaused, setFinished, limitedTime, setLimitedTime } =
+    useContext(GlobalContext);
 
   useEffect(() => {
     if (!paused && limitedTime) {
@@ -69,74 +47,37 @@ export default function Timer() {
     }
   }, [countDown, limitedTime, setTimer]);
 
-  useEffect(() => {
-    if (confirmed === true) {
-      setFinished(true);
-      setPaused(true);
-      setShowConfirmation(false);
-    }
-  }, [confirmed, setFinished, setPaused]);
-
-  useEffect(() => {
-    if (finished) {
-      setTimer("0:00");
-      setLimitedTime(true);
-      setCountDown(30 * 60);
-    }
-  }, [finished]);
+  function finishGame() {
+    setFinished(true);
+    setPaused(true);
+    setShowConfirmation(false);
+    setTimer("0:00");
+    setLimitedTime(true);
+    // Get countdown ready for a new game.
+    setCountDown(30 * 60);
+  }
 
   return (
-    <>
-      {!finished ? (
-        <StyledTimer>
-          <time>{timer}</time>
-          {paused && limitedTime ? (
-            <StartButton aria-label="start game">
-              <FontAwesomeIcon icon={faPlay} onClick={() => setPaused(false)} />
-            </StartButton>
-          ) : limitedTime ? (
-            <PauseButton aria-label="pause game">
-              <FontAwesomeIcon icon={faPause} onClick={() => setPaused(true)} />
-            </PauseButton>
-          ) : null}
-          <FinishButton aria-label="finish game">
-            <FontAwesomeIcon
-              icon={faFlagCheckered}
-              onClick={() => setShowConfirmation(true)}
-            />
-          </FinishButton>
-          {showConfirmation ? (
-            <StyledConfirmationWindow>
-              <h2>Are you sure you want to finish?</h2>
-              <div>
-                <button onClick={() => setConfirmed(true)}>
-                  <FontAwesomeIcon icon={faCheck} />
-                  <p>YES</p>
-                </button>
-                <button onClick={() => setShowConfirmation(false)}>
-                  <FontAwesomeIcon icon={faXmark} />
-                  <p>NO</p>
-                </button>
-              </div>
-            </StyledConfirmationWindow>
-          ) : (
-            <NoLimitButton
-              $limitedtime={limitedTime.toString()}
-              onClick={() => {
-                setLimitedTime(!limitedTime);
-              }}
-              aria-label={
-                limitedTime ? "Disable time limit" : "Enable time limit"
-              }
-            >
-              <FontAwesomeIcon icon={faStopwatch} />
-              <p>{limitedTime ? "disable" : "enable"} time limit</p>
-            </NoLimitButton>
-          )}
-        </StyledTimer>
+    <StyledTimer>
+      <time>{timer}</time>
+      <TimeControlButtons setShowConfirmation={setShowConfirmation} />
+      {showConfirmation ? (
+        <ConfirmationWindow
+          finishGame={finishGame}
+          setShowConfirmation={setShowConfirmation}
+        />
       ) : (
-        <FinishedMessage />
+        <NoLimitButton
+          $limitedtime={limitedTime.toString()}
+          onClick={() => {
+            setLimitedTime(!limitedTime);
+          }}
+          aria-label={limitedTime ? "Disable time limit" : "Enable time limit"}
+        >
+          <FontAwesomeIcon icon={faStopwatch} />
+          <p>{limitedTime ? "disable" : "enable"} time limit</p>
+        </NoLimitButton>
       )}
-    </>
+    </StyledTimer>
   );
 }

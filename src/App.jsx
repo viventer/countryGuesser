@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ThemeProvider } from "styled-components";
 import Header from "./components/Header";
 import Timer from "./components/Timer";
@@ -6,10 +6,13 @@ import Counter from "./components/Counter";
 import Input from "./components/Input";
 import Map from "./components/Map";
 import GlobalStyles from "./components/styles/GlobalStyles";
-import { GlobalProvider } from "./context/GlobalProvider";
+import GlobalContext, { GlobalProvider } from "./context/GlobalProvider";
 import CountriesTable from "./components/CountriesTable";
+import FinishedMessage from "./components/FinishedMessage";
 
 function App() {
+  const { finished } = useContext(GlobalContext);
+
   const theme = {
     colors: {
       background: "#222222",
@@ -23,12 +26,12 @@ function App() {
     },
   };
   return (
-    <GlobalProvider>
-      <ThemeProvider theme={theme}>
-        <div className="App">
-          <GlobalStyles />
-          <Header />
-          <main>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <GlobalStyles />
+        <Header />
+        <main>
+          {!finished ? (
             <div className="sticky">
               <div className="flex">
                 <Timer />
@@ -36,12 +39,14 @@ function App() {
               </div>
               <Input />
             </div>
-            <Map />
-            <CountriesTable />
-          </main>
-        </div>
-      </ThemeProvider>
-    </GlobalProvider>
+          ) : (
+            <FinishedMessage />
+          )}
+          <Map />
+          <CountriesTable />
+        </main>
+      </div>
+    </ThemeProvider>
   );
 }
 
