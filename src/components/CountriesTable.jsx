@@ -6,43 +6,64 @@ import { ThemeContext } from "styled-components";
 export default function CountriesTable() {
   const { guessedCountries, countriesList, finished } =
     useContext(GlobalContext);
-  const [countriesDivs, setCountriesDivs] = useState();
   const theme = useContext(ThemeContext);
 
-  function formatCountryName(name) {
-    const formattedName = name
-      .split(" ")
-      .map((word) => {
-        if (word.length < 3 || word === "and") {
-          return word;
-        }
-        return word[0].toUpperCase() + word.slice(1);
-      })
-      .join(" ");
-    return formattedName;
-  }
+  const [countriesFields, setCountriesFields] = useState();
 
   useEffect(() => {
-    setCountriesDivs(
-      countriesList.map((countryNamesList) => (
-        <div
-          key={countryNamesList[0]}
-          style={{
-            borderColor: guessedCountries.includes(countryNamesList[0])
-              ? theme.colors.green
-              : theme.colors.darkGray,
-            color: guessedCountries.includes(countryNamesList[0])
-              ? theme.colors.green
-              : theme.colors.red,
-          }}
-        >
-          {guessedCountries.includes(countryNamesList[0]) || finished
-            ? formatCountryName(countryNamesList[0])
-            : ""}
-        </div>
-      ))
-    );
+    const countriesFields = createCountriesFields();
+    setCountriesFields(countriesFields);
   }, [guessedCountries, finished]);
 
-  return <StyledCountriesTable>{countriesDivs}</StyledCountriesTable>;
+  function createCountriesFields() {
+    const fields = countriesList.map((countryNamesList) => {
+      const mainCountryName = countryNamesList[0];
+      return (
+        <div
+          key={mainCountryName}
+          style={getCountryFieldStyles(mainCountryName)}
+        >
+          {canShowCountryName(mainCountryName)
+            ? formatCountryName(mainCountryName)
+            : ""}
+        </div>
+      );
+    });
+    return fields;
+  }
+
+  function getCountryFieldStyles(mainCountryName) {
+    return {
+      borderColor: guessedCountries.includes(mainCountryName)
+        ? theme.colors.green
+        : theme.colors.darkGray,
+      color: guessedCountries.includes(mainCountryName)
+        ? theme.colors.green
+        : theme.colors.red,
+    };
+  }
+
+  function canShowCountryName(mainCountryName) {
+    return guessedCountries.includes(mainCountryName) || finished;
+  }
+
+  return <StyledCountriesTable>{countriesFields}</StyledCountriesTable>;
+}
+
+function formatCountryName(name) {
+  const notToCapitalize = ["of", "and", "the"];
+  const words_list = name.split(" ");
+  const formattedName = words_list
+    .map((word) => {
+      if (notToCapitalize.includes(word)) {
+        return word;
+      }
+      return capitalize(word);
+    })
+    .join(" ");
+  return formattedName;
+}
+
+function capitalize(word) {
+  return word[0].toUpperCase() + word.slice(1);
 }

@@ -2,11 +2,9 @@ import React, { useEffect, useState, useContext } from "react";
 
 import moment from "moment";
 
-import { StyledTimer, NoLimitButton } from "./styles/Timer.styled.jsx";
+import { StyledTimer } from "./styles/Timer.styled.jsx";
 import ConfirmationWindow from "./ConfirmationWindow.jsx";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStopwatch } from "@fortawesome/free-solid-svg-icons";
+import NoLimitButton from "./NoLimitButton.jsx";
 
 import GlobalContext from "../context/GlobalProvider.jsx";
 import useLocalStorage from "../hooks/useLocalStorage.jsx";
@@ -67,16 +65,7 @@ export default function Timer() {
           setShowConfirmation={setShowConfirmation}
         />
       ) : (
-        <NoLimitButton
-          $limitedtime={limitedTime.toString()}
-          onClick={() => {
-            setLimitedTime(!limitedTime);
-          }}
-          aria-label={limitedTime ? "Disable time limit" : "Enable time limit"}
-        >
-          <FontAwesomeIcon icon={faStopwatch} />
-          <p>{limitedTime ? "disable" : "enable"} time limit</p>
-        </NoLimitButton>
+        <NoLimitButton />
       )}
     </StyledTimer>
   );

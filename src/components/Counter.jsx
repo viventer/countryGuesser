@@ -5,22 +5,23 @@ import { StyledCounter } from "./styles/Counter.styled";
 export default function Counter() {
   const { guessedCountries, countriesList, finished, setFinished } =
     useContext(GlobalContext);
-  const [counter, setCounter] = useState(0);
+  const [numOfGuessedCountries, setNumOfGuessedCountries] = useState(
+    guessedCountries.length
+  );
+  const numOfAllCountries = countriesList.length;
 
   useEffect(() => {
-    setCounter(guessedCountries.length);
-    if (guessedCountries.length === countriesList.length) {
+    setNumOfGuessedCountries(guessedCountries.length);
+    if (numOfGuessedCountries === numOfAllCountries) {
       setFinished(true);
     }
   }, [guessedCountries]);
 
   return (
     <StyledCounter>
-      {!finished && (
-        <p>
-          {counter} / {countriesList.length}
-        </p>
-      )}
+      <p>
+        {numOfGuessedCountries} / {numOfAllCountries}
+      </p>
     </StyledCounter>
   );
 }
