@@ -7,15 +7,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function FinishedMessage() {
   const { guessedCountries, countriesList, setFinished, setGuessedCountries } =
     useContext(GlobalContext);
+
+  const numOfGuessedCountries = guessedCountries.length;
+  const numOfAllCountries = countriesList.length;
+  const allGuessed = numOfGuessedCountries === numOfAllCountries;
   return (
     <StyledFinishedMessage>
       <div className="flex">
         <h2>Finished!</h2>
         <p>
-          {guessedCountries.length !== countriesList.length
-            ? `You guessed ${guessedCountries.length} out of ${countriesList.length}
-          countries.`
-            : `You guessed all ${countriesList.length} countries`}
+          {allGuessed
+            ? `You guessed all ${numOfAllCountries} countries`
+            : `You guessed ${numOfGuessedCountries} out of ${numOfAllCountries}
+          countries.`}
         </p>
       </div>
       <button
@@ -23,11 +27,10 @@ export default function FinishedMessage() {
           setFinished(false);
           setGuessedCountries([]);
         }}
+        aria-label="new game"
       >
         <FontAwesomeIcon icon={faRotateLeft} />
-        {guessedCountries.length !== countriesList.length
-          ? "Try to get a better score"
-          : "Try to repeat your score"}
+        {allGuessed ? "Try to repeat your score" : "Try to get a better score"}
       </button>
     </StyledFinishedMessage>
   );

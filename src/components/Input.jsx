@@ -3,12 +3,11 @@ import { StyledInput } from "./styles/Input.styled";
 import GlobalContext from "../context/GlobalProvider";
 
 export default function Input() {
-  const [country, setCountry] = useState("");
+  const [enteredCountryName, setEnteredCountryName] = useState("");
   const {
     setGuessedCountries,
     guessedCountries,
     countriesList,
-    setCountriesList,
     paused,
     limitedTime,
     finished,
@@ -19,34 +18,23 @@ export default function Input() {
   const inputRef = useRef();
 
   useEffect(() => {
-    const lowerCountry = country.toLowerCase();
-    for (const countryNamesList of countriesList) {
-      if (
-        countryNamesList.includes(lowerCountry) &&
-        !guessedCountries.includes(countryNamesList[0])
-      ) {
-        setGuessedCountries([...guessedCountries, countryNamesList[0]]);
-        setShowGreenOutline(true);
-        setTimeout(() => {
-          setShowGreenOutline(false);
-        }, 200);
-        setCountry("");
+    const lowerCountryName = enteredCountryName.toLowerCase();
+    for (const countryNames of countriesList) {
+      const mainCountryName = countryNames[0];
+      const isCorrect = countryNames.includes(lowerCountryName);
+      const isAlreadyGuessed = guessedCountries.includes(mainCountryName);
+      if (isCorrect && !isAlreadyGuessed) {
+        handleCountryGuessed(mainCountryName);
       }
     }
-  }, [
-    country,
-    countriesList,
-    guessedCountries,
-    setGuessedCountries,
-    setCountriesList,
-  ]);
+  }, [enteredCountryName, countriesList, guessedCountries]);
 
-  function handleKeyDown(e) {
-    if (e.key === "Enter") {
-      setShowRedOutline(true);
-    }
+  function handleCountryGuessed(countryName) {
+    setGuessedCountries([...guessedCountries, countryName]);
+    setEnteredCountryName("");
+    setShowGreenOutline(true);
     setTimeout(() => {
-      setShowRedOutline(false);
+      setShowGreenOutline(false);
     }, 200);
   }
 
@@ -58,34 +46,35 @@ export default function Input() {
     }
   }, [paused, limitedTime, finished]);
 
+  function handlePressedEnter() {
+    setShowRedOutline(true);
+    setTimeout(() => {
+      setShowRedOutline(false);
+    }, 200);
+  }
+
   return (
-    <>
-      {!finished && (
-        <StyledInput onSubmit={(e) => e.preventDefault()}>
-          <label htmlFor="inputBar">
-            {paused ? "Start the timer" : "Enter country names"}
-          </label>
-          <input
-            ref={inputRef}
-            type="text"
-            id="inputBar"
-            value={country}
-            placeholder={
-              paused && limitedTime ? "Start the timer" : "Enter a country name"
-            }
-            onChange={(e) => setCountry(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className={
-              showRedOutline
-                ? "redOutline"
-                : showGreenOutline
-                ? "greenOutline"
-                : ""
-            }
-            autoComplete="off"
-          />
-        </StyledInput>
-      )}
-    </>
+    <StyledInput onSubmit={(e) => e.preventDefault()}>
+      <label htmlFor="inputBar">
+        {paused ? "Start the timer" : "Enter country names"}
+      </label>
+      <input
+        ref={inputRef}
+        type="text"
+        id="inputBar"
+        value={enteredCountryName}
+        placeholder={
+          paused && limitedTime ? "Start the timer" : "Enter a country name"
+        }
+        onChange={(e) => setEnteredCountryName(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") handlePressedEnter();
+        }}
+        className={
+          showRedOutline ? "redOutline" : showGreenOutline ? "greenOutline" : ""
+        }
+        autoComplete="off"
+      />
+    </StyledInput>
   );
 }

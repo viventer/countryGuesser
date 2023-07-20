@@ -6,7 +6,7 @@ import Counter from "./components/Counter";
 import Input from "./components/Input";
 import Map from "./components/Map";
 import GlobalStyles from "./components/styles/GlobalStyles";
-import GlobalContext, { GlobalProvider } from "./context/GlobalProvider";
+import GlobalContext from "./context/GlobalProvider";
 import CountriesTable from "./components/CountriesTable";
 import FinishedMessage from "./components/FinishedMessage";
 
