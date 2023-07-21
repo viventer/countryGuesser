@@ -19,15 +19,7 @@ export default function Map() {
   const theme = useContext(ThemeContext);
 
   const [circleMarkers, setCircleMarkers] = useState([]);
-  const [mapData, setMapData] = useState(() => {
-    const cachedData = localStorage.getItem("cachedData");
-    if (cachedData) {
-      return JSON.parse(cachedData);
-    } else {
-      localStorage.setItem("cachedData", JSON.stringify(mapDataFromFile));
-      return mapDataFromFile;
-    }
-  });
+  const [mapData, setMapData] = useState(mapDataFromFile);
 
   const [smallCountries] = useLocalStorage(
     "small countries",

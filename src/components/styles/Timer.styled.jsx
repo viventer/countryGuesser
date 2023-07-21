@@ -23,4 +23,12 @@ export const StyledTimer = styled.section`
   & button:hover {
     filter: brightness(1.35);
   }
+  @media (max-width: 319px) {
+    & > time {
+      font-size: 1.8rem;
+    }
+    & > button {
+      font: 1.3rem;
+    }
+  }
 `;
