@@ -15,7 +15,6 @@ export default function Timer() {
     "countDown",
     1800
   );
-  // const [countDown, setCountDown] = useState(30 * 60);
   const [timer, setTimer] = useLocalStorage("timer", "30:00");
   const [showConfirmation, setShowConfirmation] = useState(false);
 

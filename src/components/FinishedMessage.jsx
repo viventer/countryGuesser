@@ -31,7 +31,6 @@ export default function FinishedMessage() {
         onClick={() => {
           setFinished(false);
           setGuessedCountries([]);
-          console.log(finished);
         }}
         aria-label="new game"
       >
