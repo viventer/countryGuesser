@@ -11,16 +11,22 @@ import useLocalStorage from "../hooks/useLocalStorage.jsx";
 import TimeControlButtons from "./TimeControlButtons.jsx";
 
 export default function Timer() {
-  const [countDown, setCountDown] = useLocalStorage("countdown", 30 * 60);
+  const [countDown, setCountDown, resetCountDown] = useLocalStorage(
+    "countDown",
+    1800
+  );
+  // const [countDown, setCountDown] = useState(30 * 60);
   const [timer, setTimer] = useLocalStorage("timer", "30:00");
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const { paused, setPaused, setFinished, limitedTime, setLimitedTime } =
     useContext(GlobalContext);
 
+  let counterInterval;
   useEffect(() => {
     if (!paused && limitedTime) {
-      const counterInterval = setCounterInterval();
+      counterInterval = setCounterInterval();
+
       return () => {
         clearInterval(counterInterval);
       };
@@ -35,8 +41,8 @@ export default function Timer() {
   }
 
   useEffect(() => {
-    if (countDown <= 0) {
-      setFinished(true);
+    if (countDown <= 0 && limitedTime) {
+      finishGame();
     } else if (limitedTime) {
       const formattedDate = moment.unix(countDown).format("mm:ss");
       setTimer(formattedDate);
@@ -49,10 +55,9 @@ export default function Timer() {
     setFinished(true);
     setPaused(true);
     setShowConfirmation(false);
-    setTimer("0:00");
+    setTimer("30:00");
     setLimitedTime(true);
-    // Get countdown ready for a new game.
-    setCountDown(30 * 60);
+    resetCountDown();
   }
 
   return (

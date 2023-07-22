@@ -36,7 +36,7 @@ export default function CountriesTable() {
     return {
       borderColor: guessedCountries.includes(mainCountryName)
         ? theme.colors.green
-        : theme.colors.darkGray,
+        : theme.colors.elementsBackground,
       color: guessedCountries.includes(mainCountryName)
         ? theme.colors.green
         : theme.colors.red,

@@ -10,6 +10,7 @@ export const StyledTimer = styled.section`
   & > time {
     font-size: 2rem;
     font-weight: 500;
+    user-select: none;
   }
   & > button {
     background-color: rgba(0, 0, 0, 0);

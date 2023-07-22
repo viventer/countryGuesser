@@ -3,7 +3,7 @@ import GlobalContext from "../context/GlobalProvider";
 import { StyledCounter } from "./styles/Counter.styled";
 
 export default function Counter() {
-  const { guessedCountries, countriesList, finished, setFinished } =
+  const { guessedCountries, countriesList, setFinished } =
     useContext(GlobalContext);
   const [numOfGuessedCountries, setNumOfGuessedCountries] = useState(
     guessedCountries.length

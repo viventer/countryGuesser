@@ -6,4 +6,5 @@ export const StyledNoLimitButton = styled.button`
   font-weight: 500;
   display: flex;
   gap: 0.5rem;
+  user-select: none;
 `;

@@ -8,7 +8,7 @@ const GlobalStyles = createGlobalStyle`
   }
   body {
     font-family: 'Ubuntu', sans-serif;
-    background-color: ${({ theme }) => theme.colors.background};
+    background-color: ${({ theme }) => theme.colors.mainBackground};
     color: white;
   }
 
@@ -26,7 +26,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   *::selection {
-    background-color: ${({ theme }) => theme.colors.elementsBackground};
+    background-color: ${({ theme }) => theme.colors.headerAndSelection};
   }
 
   @media (min-width: 1000px) {
@@ -39,6 +39,7 @@ const GlobalStyles = createGlobalStyle`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
   }
 
   .sticky {

@@ -16,7 +16,7 @@ export const StyledFinishedMessage = styled.section`
     font-weight: 500;
     padding: 0.5rem;
     color: white;
-    background-color: ${({ theme }) => theme.colors.darkGray};
+    background-color: ${({ theme }) => theme.colors.elementsBackground};
     margin-top: 0.5rem;
     border: none;
     border-radius: 0.3rem;

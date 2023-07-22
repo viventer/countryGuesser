@@ -15,14 +15,13 @@ function App() {
 
   const theme = {
     colors: {
-      background: "#222222",
-      elementsBackground: "#007599",
+      mainBackground: "#222222",
+      headerAndSelection: "#007599",
       red: "#f27650",
       green: "#90E571",
       yellow: "#f8e25e",
-      default: "#ACACAC",
-      darkGray: "#494949",
-      other: "#00f2ff",
+      defaultCountry: "#ACACAC",
+      elementsBackground: "#494949",
     },
   };
   return (

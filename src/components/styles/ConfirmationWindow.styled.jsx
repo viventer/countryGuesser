@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const StyledConfirmationWindow = styled.div`
-  background-color: ${({ theme }) => theme.colors.darkGray};
+  background-color: ${({ theme }) => theme.colors.elementsBackground};
   position: absolute;
   top: 2.8rem;
   left: 0;

@@ -5,8 +5,13 @@ import { faRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function FinishedMessage() {
-  const { guessedCountries, countriesList, setFinished, setGuessedCountries } =
-    useContext(GlobalContext);
+  const {
+    guessedCountries,
+    countriesList,
+    setFinished,
+    setGuessedCountries,
+    finished,
+  } = useContext(GlobalContext);
 
   const numOfGuessedCountries = guessedCountries.length;
   const numOfAllCountries = countriesList.length;
@@ -26,6 +31,7 @@ export default function FinishedMessage() {
         onClick={() => {
           setFinished(false);
           setGuessedCountries([]);
+          console.log(finished);
         }}
         aria-label="new game"
       >

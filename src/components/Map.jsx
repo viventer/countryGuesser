@@ -41,7 +41,7 @@ export default function Map() {
       ? theme.colors.green
       : finished
       ? theme.colors.red
-      : theme.colors.default;
+      : theme.colors.defaultCountry;
     feature.properties.style = { fillColor };
   }
 
